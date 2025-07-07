@@ -1,0 +1,3 @@
+text=input("")
+char_count=len(text)
+print("จำนวนตัวอักษร:",char_count)
