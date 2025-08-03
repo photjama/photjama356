@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <h1>แบบฟอร์มรับสมัคร</h1>
+        <form action="">
+            <label for="">ชื่อ-นามสกุล</label>
+            <input type="text" name="name" required minlength="10" maxlength="20"><br>
+            <label for="">อีเมล: photxxxxx@mju.ac.th</label>
+            <input type="email" name="email" required pattern="stu67[0-9]{8}@mju\.ac\.th"><br>
+
+            <label for="Grade"></label>
+            <!--Grade: A,B+,B,C+,C,D+,D,F-->
+            <input type="text" name="grade" required pattern="^(A|B[+-]?|C[+-]?|D[+-]?|F)$"><br>
+
+            <label for="GPA"></label>
+            <!--GPA:1.75-4.00-->
+            <input type="text" name="gpa" min="1.75" max="4.00" step="0.01" required pattern="^(1\.[7-9][5-9]|[2-3]\.[0-9]{2}|4\.00)$"><br>
+
+            <label for="evenNumber"></label>
+            <!--เลขคู่-->
+            <input type="text" name="evenNumber" required pattern="^[02468]$"><br>
+
+            <!--รหัสผ่าน 8ตัวขึ้นไป,มีคำว่า thai ไม่มีอักอักษรพิเศษ ห้ามเว้นวรรค/ช่องว่าง-->
+            <input type="text" name="password" required minlength="8" pattern="^(?=.*thai)[a-zA-Z0-9thai]{8,}$"><br>
+
+            <!--ทะเบียนรถยนต์ เลข1 เว้นวรรค ตัวอักษร2 เว้นวรรค ตามด้วยเลข 4 ตัว ตามด้วยจังหวัด -->
+            <input type="text" name="carRegistration" required pattern="^[0-9]{1}[ก-ฮ]{2}\s[0-9]{4}[ก-ฮ]{}$"><br>
+
+            <!--หมายเลขครุภัณฑ์ ตัวอักษร 2 ตัว ตามด้วยจุด มีเลข4ตัว ตามด้วย-เลข3ตัว ตามด้วย-เลข4ตัว/ปีพ.ศ -->
+            <input type="text" name="assetNumber" required pattern="^[ก-ฮ]{2}\.[0-9]{4}-[0-9]{3}-[0-9]{4}/[0-9]{2}$"><br>
+
+            <label for="number">Age:</label>
+            <input type="number" name="age" min="1" max="100" placeholder="Enter your age" required>
+            <label for="rank">Rank (1-5):</label>
+            <input type="range" name="rank" min="1" max="5" value="3">
+
+            <input type="submit" value="ส่งข้อมูล">
+
+        </form>
+
+
+    </div>
+    
+</body>
+</html>

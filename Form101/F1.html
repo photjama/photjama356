@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>สินค้าของลูกค้า | CS 30 ปี</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: 'Sarabun', sans-serif; }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-purple-50 to-pink-100 min-h-screen p-6">
+
+  <header class="w-full max-w-7xl mx-auto px-25 sm:px-6 pt-6 mb-10 flex flex-col sm:flex-row justify-between items-center">
+  <div class="text-center sm:text-left">
+    <h1 class="text-4xl font-bold text-purple-700">ของที่ระลึก</h1>
+    <h2 class="text-lg font-sarabun text-purple-600">Computer Science 30 ปี</h2>
+  </div>
+  <button id="logoutBtn" class="mt-4 sm:mt-0 bg-gradient-to-r from-red-500 to-yellow-400 hover:from-red-600 hover:to-yellow-500 text-white font-semibold px-6 py-2 rounded-lg shadow transition duration-300">
+  Logout
+</button>
+</header>
+
+  <main class="max-w-7xl mx-auto">
+    <div id="productList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    </div>
+  </main>
+<div id="orderModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+  <div class="bg-white rounded-lg p-6 max-w-md w-full shadow-lg relative">
+    <h3 class="text-xl font-semibold mb-4 text-purple-800">เลือกสีและขนาด</h3>
+
+    <!-- เลือกสี -->
+    <div>
+      <label class="block font-semibold mb-1" for="colorSelect">สีสินค้า</label>
+      <select id="colorSelect" class="w-full border border-gray-300 rounded px-3 py-2">
+        <option value="">-- กรุณาเลือกสี --</option>
+      </select>
+    </div>
+
+    <!-- เลือกขนาด -->
+    <div class="mt-4" id="sizeContainer">
+      <label class="block font-semibold mb-1" for="sizeSelect">ขนาด</label>
+      <select id="sizeSelect" class="w-full border border-gray-300 rounded px-3 py-2">
+        <option value="">-- กรุณาเลือกขนาด --</option>
+      </select>
+    </div>
+
+    <!--จำนวนที่ต้องการ -->
+    <div class="mt-4">
+      <label for="quantityInput" class="block font-semibold mb-1">จำนวนที่ต้องการสั่ง</label>
+      <input
+        id="quantityInput"
+        type="number"
+        min="1"
+        value="1"
+        class="w-full border border-gray-300 rounded px-3 py-2"
+      />
+    </div>
+
+    <!-- ปุ่มยืนยันและยกเลิก -->
+    <div class="mt-6 flex justify-end gap-4">
+      <button id="cancelBtn" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400">ยกเลิก</button>
+      <button id="confirmBtn" class="px-4 py-2 rounded bg-pink-500 text-white hover:bg-pink-600 font-semibold">ยืนยัน</button>
+    </div>
+  </div>
+</div>
+
+
+  <!-- JavaScript -->
+  <script>
+    const products = [
+      {
+        name: "เสื้อรุ่น 30 ปี",
+        type: "เสื้อ",
+        color: "ดำ ขาว เทา น้ำเงิน",
+        size: "S, M, L, XL, XXL",
+        price: 350,
+        stock: 10,
+        image: "../jpg/python-shirt.jpg"
+      },
+      {
+        name: "กระเป๋าผ้า CS30",
+        type: "กระเป๋า",
+        color: "น้ำตาล เทา ดำ น้ำเงิน",
+        price: 250,
+        stock: 20,
+        image: "../jpg/Screenshot.png"
+      },
+      {
+        name: "แก้วน้ำรุ่น 30 ปี",
+        type: "แก้วน้ำ",
+        color: "ขาว ฟ้า ใส",
+        price: 150,
+        stock: 15,
+        image: "../jpg/Mug.jpg"
+      },
+      {
+        name: "หมวกแก๊ป CS30",
+        type: "หมวก",
+        color: "ดำ ขาว น้ำเงิน แดง",
+        price: 200,
+        stock: 8,
+        image: "../jpg/hat.png"
+      },
+      {
+        name: "ร่มลาย CS30",
+        type: "ร่ม",
+        color: "แดง ฟ้า เหลือง น้ำเงิน",
+        price: 400,
+        stock: 5,
+        image: "../jpg/umbrella.jpg"
+      },
+      {
+        name: "เข็มกลัดโลโก้ CS30",
+        type: "เข็มกลัด",
+        color: "ทอง เงิน",
+        price: 80,
+        stock: 30,
+        image: "../jpg/brooch.png"
+      },
+      {
+        name: "สมุดบันทึก CS30",
+        type: "สมุด",
+        color: "ขาว ดำ น้ำเงิน",
+        price: 120,
+        stock: 18,
+        image: "../jpg/notebook.jpg"
+      },
+      {
+        name: "ปากกา CS30",
+        type: "ปากกา",
+        color: "น้ำเงิน แดง",
+        price: 60,
+        stock: 50,
+        image: "../jpg/pen.jpg"
+      }
+    ];
+
+    const productList = document.getElementById('productList');
+    const orderModal = document.getElementById('orderModal');
+    const colorSelect = document.getElementById('colorSelect');
+    const sizeSelect = document.getElementById('sizeSelect');
+    const sizeContainer = document.getElementById('sizeContainer');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const confirmBtn = document.getElementById('confirmBtn');
+    let currentProduct = null;
+
+    // สร้างการ์ดสินค้า
+    products.forEach((item, index) => {
+      const card = document.createElement('div');
+      card.className = "bg-white rounded-xl shadow-md hover:shadow-lg transition p-4 flex flex-col cursor-pointer max-w-[320px] mx-auto";
+
+      card.innerHTML = `
+        <div class="relative aspect-square p-4 bg-purple-50 rounded-md overflow-hidden">
+          <img src="${item.image}" alt="${item.name}" class="object-cover w-full h-full rounded-md" />
+          <span class="absolute top-2 right-2 bg-purple-600 text-white text-xs font-semibold rounded-full px-2 py-0.5 shadow-lg">
+            คงเหลือ ${item.stock} ชิ้น
+          </span>
+        </div>
+        <h2 class="text-purple-800 font-semibold mt-3 mb-1 text-lg">${item.name}</h2>
+        <p class="text-gray-600 text-sm mb-1">ประเภท: ${item.type}</p>
+        <p class="text-gray-600 text-sm mb-1">สี: ${item.color}</p>
+        ${item.size ? `<p class="text-gray-600 text-sm mb-1">ขนาด: ${item.size}</p>` : ""}
+        <p class="text-pink-600 font-bold text-xl">฿${item.price}</p>
+        <button class="mt-auto bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 rounded-lg transition text-center" data-index="${index}">
+          🛒 สั่งซื้อ
+        </button>
+      `;
+      productList.appendChild(card);
+    });
+
+    // เปิด modal
+    productList.addEventListener('click', (e) => {
+      if (e.target.tagName === 'BUTTON') {
+        const index = e.target.dataset.index;
+        currentProduct = products[index];
+
+        // เตรียม dropdown สี
+        colorSelect.innerHTML = '<option value="">-- กรุณาเลือกสี --</option>';
+        currentProduct.color.split(' ').forEach(c => {
+          const opt = document.createElement('option');
+          opt.value = c;
+          opt.textContent = c;
+          colorSelect.appendChild(opt);
+        });
+
+        // เตรียม dropdown ขนาด (เฉพาะเสื้อ)
+        if (currentProduct.type === 'เสื้อ' && currentProduct.size) {
+          sizeContainer.style.display = 'block';
+          sizeSelect.disabled = false;
+          sizeSelect.innerHTML = '<option value="">-- กรุณาเลือกขนาด --</option>';
+          currentProduct.size.split(',').map(s => s.trim()).forEach(s => {
+            const opt = document.createElement('option');
+            opt.value = s;
+            opt.textContent = s;
+            sizeSelect.appendChild(opt);
+          });
+        } else {
+          sizeContainer.style.display = 'none';
+          sizeSelect.disabled = true;
+        }
+
+        colorSelect.classList.remove('border-red-500');
+        sizeSelect.classList.remove('border-red-500');
+
+        orderModal.classList.remove('hidden');
+      }
+    });
+
+    // ปิด modal
+    cancelBtn.addEventListener('click', () => {
+      orderModal.classList.add('hidden');
+    });
+
+    // กดยืนยัน → ไปหน้า order-form.html พร้อม query string
+    confirmBtn.addEventListener('click', () => {
+  let valid = true;
+
+  // ตรวจสอบสี
+  if (!colorSelect.value) {
+    colorSelect.classList.add('border-red-500');
+    valid = false;
+  } else {
+    colorSelect.classList.remove('border-red-500');
+  }
+
+  // ตรวจสอบขนาด (ถ้ามี)
+  if (!sizeSelect.value && !sizeSelect.disabled) {
+    sizeSelect.classList.add('border-red-500');
+    valid = false;
+  } else {
+    sizeSelect.classList.remove('border-red-500');
+  }
+
+  // ตรวจสอบจำนวน
+  const quantityInput = document.getElementById('quantityInput');
+  const quantityValue = parseInt(quantityInput.value, 10);
+  if (!quantityValue || quantityValue < 1 || quantityValue > currentProduct.stock) {
+    quantityInput.classList.add('border-red-500');
+    valid = false;
+  } else {
+    quantityInput.classList.remove('border-red-500');
+  }
+
+  if (valid) {
+    const params = new URLSearchParams({
+      name: currentProduct.name,
+      color: colorSelect.value,
+      size: sizeSelect.disabled ? '' : sizeSelect.value,
+      price: currentProduct.price.toString(),
+      quantity: quantityValue.toString(),
+    });
+    window.location.href = 'order-form.html?' + params.toString();
+  }
+});
+
+    // Logout button
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      window.location.href = 'loginCustomer.html';
+    });
+
+  </script>
+</body>
+</html>

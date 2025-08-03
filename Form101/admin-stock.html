@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin เตรียมสินค้า | CS 30 ปี</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Sarabun', sans-serif;
+    }
+    .input-error {
+      border-color: #f87171 !important;
+      background-color: #fef2f2;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 min-h-screen p-8">
+
+  <!-- Header -->
+  <header class="max-w-7xl mx-auto mb-8 flex justify-between items-center">
+    <h1 class="text-3xl font-bold text-indigo-700 flex items-center gap-3">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9 text-purple-600 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M20 13V6a2 2 0 00-2-2h-6m6 9l-2-2m-8-2l2 2m-2 0v6a2 2 0 002 2h6" />
+      </svg>
+      เตรียมสินค้าเพื่อขาย
+    </h1>
+    <a href="AdminDashboard.html"
+       class="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-4 py-2 rounded-lg shadow transition">
+      กลับหน้าแดชบอร์ด
+    </a>
+  </header>
+
+  <!-- Main -->
+  <main class="max-w-7xl mx-auto bg-white rounded-2xl shadow-lg p-8 space-y-8">
+
+    <!-- ฟอร์ม -->
+    <section>
+      <h2 class="text-xl font-semibold text-indigo-700 mb-4">เพิ่ม / แก้ไข สินค้า</h2>
+
+      <form id="productForm" class="space-y-6" novalidate>
+
+        <div>
+          <label for="productType" class="block text-indigo-800 font-medium mb-1">ประเภทสินค้า</label>
+          <select id="productType" name="productType" required
+            class="w-full border-2 border-indigo-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-purple-500 transition">
+            <option value="" disabled selected>-- เลือกประเภทสินค้า --</option>
+            <option value="shirt">เสื้อ</option>
+            <option value="bag">กระเป๋า</option>
+            <option value="glass">แก้ว</option>
+            <option value="hat">หมวก</option>
+            <option value="umbrella">ร่ม</option>
+            <option value="badge">เข็มกลัด</option>
+            <option value="notebook">สมุด</option>
+            <option value="pen">ปากกา</option>
+          </select>
+          <p id="typeError" class="text-red-600 text-sm mt-1 hidden">กรุณาเลือกประเภทสินค้า</p>
+        </div>
+
+        <!-- สำหรับเสื้อ -->
+        <div id="shirtFields" class="hidden space-y-4">
+          <div>
+            <label for="shirtColor" class="block text-indigo-800 font-medium mb-1">สีของเสื้อ</label>
+            <select id="shirtColor" name="shirtColor"
+              class="w-full border-2 border-indigo-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-purple-500 transition">
+              <option value="" disabled selected>-- เลือกสี --</option>
+              <option value="black">ดำ</option>
+              <option value="blue">น้ำเงิน</option>
+              <option value="white">ขาว</option>
+              <option value="gray">เทา</option>
+            </select>
+          </div>
+          <div>
+            <label for="shirtSize" class="block text-indigo-800 font-medium mb-1">ขนาด</label>
+            <select id="shirtSize" name="shirtSize"
+              class="w-full border-2 border-indigo-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-purple-500 transition">
+              <option value="" disabled selected>-- เลือกขนาด --</option>
+              <option value="S">S</option>
+              <option value="M">M</option>
+              <option value="L">L</option>
+              <option value="XL">XL</option>
+              <option value="XXL">XXL</option>
+            </select>
+          </div>
+          <div>
+  <label for="otherImage" class="block text-indigo-800 font-medium mb-2">อัปโหลดรูปภาพสินค้า</label>
+  <input type="file" id="otherImage" name="otherImage" accept="image/*"
+    class="block w-full text-sm text-gray-500
+           file:mr-4 file:py-2 file:px-4
+           file:rounded-full file:border-0
+           file:text-sm file:font-semibold
+           file:bg-purple-400 file:text-white
+           hover:file:bg-purple-500 transition" />
+  <img id="otherPreview" class="hidden mt-3 w-32 h-32 object-cover rounded shadow" />
+</div>
+          <div>
+            <label for="shirtPrice" class="block text-indigo-800 font-medium mb-1">ราคา (บาท)</label>
+            <input type="number" id="shirtPrice" name="shirtPrice" min="0" step="1" 
+              class="w-full border-2 border-indigo-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-purple-500 transition" />
+          </div>
+          <div>
+            <label for="shirtStock" class="block text-indigo-800 font-medium mb-1">จำนวนในสต็อก</label>
+            <input type="number" id="shirtStock" name="shirtStock" min="0" step="1" 
+              class="w-full border-2 border-indigo-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-purple-500 transition" />
+        </div>
+        </div>
+
+
+        <!-- สำหรับอื่น ๆ -->
+         
+        <div id="otherFields" class="hidden space-y-4">
+          <div>
+  <label for="productImage" class="block text-indigo-800 font-medium mb-2">อัปโหลดรูปภาพสินค้า</label>
+  <input type="file" id="productImage" name="productImage" accept="image/*"
+    class="block w-full text-sm text-gray-500
+           file:mr-4 file:py-2 file:px-4
+           file:rounded-full file:border-0
+           file:text-sm file:font-semibold
+           file:bg-purple-400 file:text-white
+           hover:file:bg-purple-500 transition" />
+  <img id="otherPreview" class="hidden mt-3 w-32 h-32 object-cover rounded shadow" />
+    </div>
+
+          <div>
+            <label for="otherPrice" class="block text-indigo-800 font-medium mb-1">ราคา (บาท)</label>
+            <input type="number" id="otherPrice" name="otherPrice" min="0" step="1" 
+              class="w-full border-2 border-indigo-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-purple-500 transition" />
+          </div>
+          <div>
+            <label for="otherStock" class="block text-indigo-800 font-medium mb-1">จำนวนในสต็อก</label>
+            <input type="number" id="otherStock" name="otherStock" min="0" step="1" 
+              class="w-full border-2 border-indigo-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-purple-500 transition" />
+        </div>
+        </div>
+
+        <div class="flex gap-4">
+          <button type="submit"
+          class="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-6 py-3 rounded-lg shadow transition w-full">
+            บันทึกสินค้า
+          </button>
+          <button type="reset"
+            class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold px-6 py-3 rounded-lg shadow transition w-full">
+            ล้างข้อมูล
+          </button>
+        </div>
+
+      </form>
+    </section>
+
+    <!-- ตารางสินค้า -->
+    <section>
+      <h2 class="text-xl font-semibold text-indigo-700 mb-4">สต็อกสินค้า</h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full border border-indigo-200 rounded-lg">
+          <thead class="bg-purple-100 text-indigo-700 font-semibold">
+            <tr>
+              <th class="px-6 py-3 border-b border-indigo-300 text-center">รหัสสินค้า</th>
+              <th class="px-6 py-3 border-b border-indigo-300 text-center">รูปภาพ</th>
+              <th class="px-6 py-3 border-b border-indigo-300 text-center">ชื่อสินค้า</th>
+              <th class="px-6 py-3 border-b border-indigo-300 text-center">ประเภท</th>
+              <th class="px-6 py-3 border-b border-indigo-300 text-center">สี</th>
+              <th class="px-6 py-3 border-b border-indigo-300 text-center">ขนาด</th>
+              <th class="px-6 py-3 border-b border-indigo-300 text-center">สถานะ</th>
+            </tr>
+          </thead>
+          <tbody class="text-indigo-900">
+  <tr class="border-b border-indigo-200 hover:bg-purple-50 transition">
+    <td class="px-6 py-4 text-center">CS30TS001</td>
+    <td class="px-6 py-4 flex justify-center items-center">
+      <img src="../jpg/python-shirt.jpg" alt="เสื้อดำ" class="w-16 h-16 rounded shadow object-cover" />
+
+    </td>
+    <td class="px-6 py-4 text-center">เสื้อรุ่น 30 ปี</td>
+    <td class="px-6 py-4 text-center">เสื้อ</td>
+    <td class="px-6 py-4 flex justify-center ">
+  <div class="flex items-center gap-3">
+    <div class="flex gap-2">
+      <div class="w-5 h-5 rounded-full bg-black border"></div>
+      <div class="w-5 h-5 rounded-full bg-blue-600 border"></div>
+      <div class="w-5 h-5 rounded-full bg-white border border-gray-400"></div>
+      <div class="w-5 h-5 rounded-full bg-gray-500 border"></div>
+    </div>
+  </div>
+</td>
+
+    <td class="px-6 py-4 text-center">S M L XL XXL</td>
+    <td class="px-6 py-4 text-center">
+      <span class="inline-block bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full">
+        พร้อมขาย
+      </span>
+    </td>
+  </tr>
+  <tr class="border-b border-indigo-200 hover:bg-purple-50 transition">
+    <td class="px-6 py-4 text-center">CS30BG002</td>
+    <td class="px-6 py-4 flex justify-center items-center">
+      <img src="../jpg/Screenshot.png" alt="กระเป๋าผ้า" class="w-16 h-16 rounded shadow object-cover" />
+    </td>
+    <td class="px-6 py-4 text-center">กระเป๋าผ้า</td>
+    <td class="px-6 py-4 text-center">กระเป๋า</td>
+    <td class="px-6 py-4 flex justify-center items-center">
+  <div class="flex items-center gap-3">
+    <div class="flex gap-2">
+      <div class="w-5 h-5 rounded-full" style="background-color: #8B4513; border: 1px solid #ccc;"></div>
+      <div class="w-5 h-5 rounded-full bg-gray-500 border border-gray-300"></div>
+      <div class="w-5 h-5 rounded-full bg-black border border-gray-400"></div>
+      <div class="w-5 h-5 rounded-full bg-blue-600 border border-gray-300"></div>
+    </div>
+  </div>
+</td>
+
+    <td class="px-6 py-4 text-center">-</td>
+    <td class="px-6 py-4 text-center">
+      <span class="inline-block bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full">
+        พร้อมขาย
+      </span>
+    </td>
+  </tr>
+  <tr class="border-b border-indigo-200 hover:bg-purple-50 transition">
+    <td class="px-6 py-4 text-center">CS30MG003</td>
+    <td class="px-6 py-4 flex justify-center items-center">
+      <img src="../jpg/Mug.jpg" alt="แก้วน้ำ" class="w-16 h-16 rounded shadow object-cover" />
+    </td>
+    <td class="px-6 py-4 text-center">แก้วน้ำรุ่น 30 ปี</td>
+    <td class="px-6 py-4 text-center">แก้ว</td>
+    <td class="px-6 py-4 flex justify-center items-center">
+  <div class="flex gap-2">
+    <div class="w-5 h-5 rounded-full bg-white border border-gray-400"></div>
+    <div class="w-5 h-5 rounded-full bg-sky-400 border border-gray-300"></div>
+    <div class="w-5 h-5 rounded-full bg-transparent border border-dashed border-gray-400"></div>
+  </div>
+</td>
+
+    <td class="px-6 py-4 text-center">-</td>
+    <td class="px-6 py-4 text-center">
+      <span class="inline-block bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full">
+        พร้อมขาย
+      </span>
+    </td>
+  </tr>
+  <tr class="border-b border-indigo-200 hover:bg-purple-50 transition">
+    <td class="px-6 py-4 text-center">CS30HT004</td>
+    <td class="px-6 py-4 flex justify-center items-center">
+      <img src="../jpg/hat.png" alt="หมวกแก๊ป" class="w-16 h-16 rounded shadow object-cover" />
+    </td>
+    <td class="px-6 py-4 text-center">หมวกแก๊ป</td>
+    <td class="px-6 py-4 text-center">หมวก</td>
+    <td class="px-6 py-4 flex justify-center items-center">
+  <div class="flex gap-2">
+    <div class="w-5 h-5 rounded-full bg-black border border-gray-300"></div>
+    <div class="w-5 h-5 rounded-full bg-white border border-gray-400"></div>
+    <div class="w-5 h-5 rounded-full bg-blue-600 border border-gray-300"></div>
+    <div class="w-5 h-5 rounded-full bg-red-500 border border-gray-300"></div>
+  </div>
+</td>
+    <td class="px-6 py-4 text-center">-</td>
+    <td class="px-6 py-4 text-center">
+      <span class="inline-block bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full">
+        พร้อมขาย
+      </span>
+    </td>
+  </tr>
+  <tr class="border-b border-indigo-200 hover:bg-purple-50 transition">
+    <td class="px-6 py-4 text-center">CS30UM005</td>
+    <td class="px-6 py-4 flex justify-center items-center">
+      <img src="../jpg/umbrella.jpg" alt="ร่มลาย CS30" class="w-16 h-16 rounded shadow object-cover" />
+    </td>
+    <td class="px-6 py-4 text-center">ร่มลาย CS30</td>
+    <td class="px-6 py-4 text-center">ร่ม</td>
+    <td class="px-6 py-4 flex justify-center items-center">
+  <div class="flex gap-2">
+    <div class="w-5 h-5 rounded-full bg-red-500 border border-gray-300"></div>
+    <div class="w-5 h-5 rounded-full bg-sky-400 border border-gray-300"></div>
+    <div class="w-5 h-5 rounded-full bg-yellow-300 border border-gray-300"></div>
+    <div class="w-5 h-5 rounded-full bg-blue-600 border border-gray-300"></div>
+  </div>
+</td>
+
+    <td class="px-6 py-4 text-center">-</td>
+    <td class="px-6 py-4 text-center">
+      <span class="inline-block bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full">
+        พร้อมขาย
+      </span>
+    </td>
+  </tr>
+  <tr class="border-b border-indigo-200 hover:bg-purple-50 transition">
+    <td class="px-6 py-4 text-center">CS30BG006</td>
+    <td class="px-6 py-4 flex justify-center items-center">
+      <img src="../jpg/brooch.png" alt="เข็มกลัดโลโก้" class="w-16 h-16 rounded shadow object-cover" />
+    </td>
+    <td class="px-6 py-4 text-center">เข็มกลัดโลโก้</td>
+    <td class="px-6 py-4 text-center">เข็มกลัด</td>
+    <td class="px-6 py-4 flex justify-center items-center">
+  <div class="flex gap-2">
+    <div class="w-5 h-5 rounded-full border border-gray-300" style="background-color: #C0C0C0;"></div> 
+    <div class="w-5 h-5 rounded-full border border-gray-300" style="background-color: #FFD700;"></div> 
+  </div>
+</td>
+
+    <td class="px-6 py-4 text-center">-</td>
+    <td class="px-6 py-4 text-center">
+      <span class="inline-block bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full">
+        พร้อมขาย
+      </span>
+    </td>
+  </tr>
+  <tr class="border-b border-indigo-200 hover:bg-purple-50 transition">
+    <td class="px-6 py-4 text-center">CS30NB007</td>
+    <td class="px-6 py-4 flex justify-center items-center">
+      <img src="../jpg/notebook.jpg" alt="สมุดบันทึก CS30" class="w-16 h-16 rounded shadow object-cover" />
+    </td>
+    <td class="px-6 py-4 text-center">สมุดบันทึก CS30</td>
+    <td class="px-6 py-4 text-center">สมุด</td>
+    <td class="px-6 py-4 flex justify-center items-center">
+  <div class="flex gap-2">
+    <div class="w-5 h-5 rounded-full bg-white border border-gray-400"></div>
+    <div class="w-5 h-5 rounded-full bg-black border border-gray-300"></div>
+    <div class="w-5 h-5 rounded-full bg-blue-600 border border-gray-300"></div>
+  </div>
+</td>
+
+    <td class="px-6 py-4 text-center">-</td>
+    <td class="px-6 py-4 text-center">
+      <span class="inline-block bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full">
+        พร้อมขาย
+      </span>
+    </td>
+  </tr>
+  <tr class="border-b border-indigo-200 hover:bg-purple-50 transition">
+    <td class="px-6 py-4 text-center">CS30PN008</td>
+    <td class="px-6 py-4 flex justify-center items-center">
+      <img src="../jpg/pen.jpg" alt="ปากกา CS30" class="w-16 h-16 rounded shadow object-cover" />
+    </td>
+
+    <td class="px-6 py-4 text-center">ปากกา CS30</td>
+    <td class="px-6 py-4 text-center">ปากกา</td>
+    <td class="px-6 py-4 flex justify-center items-center">
+  <div class="flex gap-2">
+    <div class="w-5 h-5 rounded-full bg-blue-600 border border-gray-300"></div>
+    <div class="w-5 h-5 rounded-full bg-red-500 border border-gray-300"></div>
+  </div>
+</td>
+
+    <td class="px-6 py-4 text-center">-</td>
+    <td class="px-6 py-4 text-center">
+      <span class="inline-block bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full">
+        พร้อมขาย
+      </span>
+    </td>
+  </tr>
+</tbody>
+
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+  const productType = document.getElementById('productType');
+  const shirtFields = document.getElementById('shirtFields');
+  const otherFields = document.getElementById('otherFields');
+  const typeError = document.getElementById('typeError');
+  const form = document.getElementById('productForm');
+
+  // เพิ่ม dropdown สีแบบเจาะจง
+  const colorGroup = document.createElement("div");
+  colorGroup.id = "colorGroup";
+  colorGroup.className = "space-y-4";
+  otherFields.insertBefore(colorGroup, otherFields.firstChild);
+
+  const colorSets = {
+    shirt: [
+      { value: "black", label: "ดำ" },
+      { value: "blue", label: "น้ำเงิน" },
+      { value: "white", label: "ขาว" },
+      { value: "gray", label: "เทา" }
+    ],
+    hat: [
+      { value: "black", label: "ดำ" },
+      { value: "white", label: "ขาว" },
+      { value: "blue", label: "น้ำเงิน" },
+      { value: "red", label: "แดง" }
+    ],
+    bag: [
+      { value: "brown", label: "น้ำตาล" },
+      { value: "gray", label: "เทา" },
+      { value: "black", label: "ดำ" },
+      { value: "blue", label: "น้ำเงิน" }
+    ],
+    glass: [
+      { value: "white", label: "ขาว" },
+      { value: "blue", label: "ฟ้า" },
+      { value: "transparent", label: "ใส" }
+    ],
+    umbrella: [
+      { value: "red", label: "แดง" },
+      { value: "blue", label: "ฟ้า" },
+      { value: "yellow", label: "เหลือง" },
+      { value: "navy", label: "น้ำเงิน" }
+    ],
+    pen: [
+      { value: "blue", label: "น้ำเงิน" },
+      { value: "red", label: "แดง" }
+    ],
+    badge: [
+      { value: "silver", label: "เงิน" },
+      { value: "gold", label: "ทอง" }
+    ],
+    notebook: [
+      { value: "white", label: "ขาว" },
+      { value: "black", label: "ดำ" },
+      { value: "blue", label: "น้ำเงิน" }
+    ]
+  };
+
+  productType.addEventListener('change', updateProductFields);
+
+  function updateProductFields() {
+    const selected = productType.value;
+    typeError.classList.add('hidden');
+
+    // เสื้อ
+    if (selected === 'shirt') {
+      shirtFields.classList.remove('hidden');
+      otherFields.classList.add('hidden');
+    } else if (selected) {
+      shirtFields.classList.add('hidden');
+      otherFields.classList.remove('hidden');
+    } else {
+      shirtFields.classList.add('hidden');
+      otherFields.classList.add('hidden');
+    }
+
+    // แสดงเฉพาะสีตามประเภท
+    colorGroup.innerHTML = ''; // ล้างก่อน
+    if (colorSets[selected]) {
+      const colorLabel = document.createElement('label');
+      colorLabel.htmlFor = "productColor";
+      colorLabel.className = "block text-indigo-800 font-medium mb-1";
+      colorLabel.textContent = "สีสินค้า";
+
+      const colorSelect = document.createElement('select');
+      colorSelect.id = "productColor";
+      colorSelect.name = "productColor";
+      colorSelect.className = "w-full border-2 border-indigo-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-purple-500 transition";
+
+      const defaultOption = document.createElement('option');
+      defaultOption.value = "";
+      defaultOption.textContent = "-- เลือกสี --";
+      defaultOption.disabled = true;
+      defaultOption.selected = true;
+      colorSelect.appendChild(defaultOption);
+
+      colorSets[selected].forEach(color => {
+        const option = document.createElement('option');
+        option.value = color.value;
+        option.textContent = color.label;
+        colorSelect.appendChild(option);
+      });
+
+      colorGroup.appendChild(colorLabel);
+      colorGroup.appendChild(colorSelect);
+    }
+  }
+
+  form.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  if (!productType.value) {
+    typeError.classList.remove('hidden');
+    productType.focus();
+    return;
+  }
+
+  // สร้างออบเจ็กต์สินค้า
+  const newItem = {
+    name: productType.value === 'shirt' ? 'เสื้อรุ่น 30 ปี' :
+      productType.value === 'bag' ? 'กระเป๋าผ้า' :
+      productType.value === 'glass' ? 'แก้วน้ำรุ่น 30 ปี' :
+      productType.value === 'hat' ? 'หมวกแก๊ป' :
+      productType.value === 'umbrella' ? 'ร่มลาย CS30' :
+      productType.value === 'badge' ? 'เข็มกลัดโลโก้' :
+      productType.value === 'notebook' ? 'สมุดบันทึก CS30' :
+      productType.value === 'pen' ? 'ปากกา CS30' : 'สินค้าทั่วไป',
+    type: productType.options[productType.selectedIndex].text,
+    color: document.getElementById('shirtColor')?.value || document.getElementById('productColor')?.value || '-',
+    size: document.getElementById('shirtSize')?.value || '-',
+    price: document.getElementById('shirtPrice')?.value || document.getElementById('otherPrice')?.value || '0',
+    stock: document.getElementById('shirtStock')?.value || document.getElementById('otherStock')?.value || '0'
+  };
+
+  // โหลดรายการเก่าใน localStorage
+  const oldItems = JSON.parse(localStorage.getItem('stockItems') || '[]');
+  oldItems.push(newItem);
+  localStorage.setItem('stockItems', JSON.stringify(oldItems));
+
+  // ไปหน้า stock-summary.html
+  window.location.href = 'summary.html';
+});
+
+</script>
+
+
+</body>
+</html>

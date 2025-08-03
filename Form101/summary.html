@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>สรุปการเตรียมสต็อก | CS 30 ปี</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: 'Sarabun', sans-serif; }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 min-h-screen p-6">
+
+  <!-- Header -->
+  <header class="max-w-7xl mx-auto mb-8 flex justify-between items-center">
+    <h1 class="text-3xl font-bold text-indigo-700 flex items-center gap-3">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9 text-purple-600 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M20 13V6a2 2 0 00-2-2h-6m6 9l-2-2m-8-2l2 2m-2 0v6a2 2 0 002 2h6" />
+      </svg>
+      สรุปการเตรียมสินค้า
+    </h1>
+    <a href="AdminDashboard.html"
+       class="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-4 py-2 rounded-lg shadow transition">
+      กลับหน้าแดชบอร์ด
+    </a>
+  </header>
+
+  <!-- Main -->
+  <main class="max-w-7xl mx-auto bg-white rounded-2xl shadow-lg p-8 space-y-8">
+
+    <!-- Summary Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  <!-- สินค้าในระบบ -->
+  <div class="flex items-center gap-4 bg-purple-50 border-l-4 border-purple-400 p-6 rounded-xl shadow hover:shadow-md transition">
+    <div class="p-4 bg-purple-200 text-purple-800 rounded-full">
+      📦
+    </div>
+    <div>
+      <h3 class="text-lg font-semibold text-purple-700">สินค้าในระบบ</h3>
+      <p id="itemCount" class="text-2xl font-bold text-indigo-900">0 รายการ</p>
+    </div>
+  </div>
+
+  <!-- พร้อมขาย -->
+  <div class="flex items-center gap-4 bg-green-50 border-l-4 border-green-400 p-6 rounded-xl shadow hover:shadow-md transition">
+    <div class="p-4 bg-green-200 text-green-800 rounded-full">
+      ✅
+    </div>
+    <div>
+      <h3 class="text-lg font-semibold text-green-700">พร้อมขาย</h3>
+      <p class="text-2xl font-bold text-green-900">ทั้งหมด</p>
+    </div>
+  </div>
+
+  <!-- ใกล้หมด -->
+  <div class="flex items-center gap-4 bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-xl shadow hover:shadow-md transition">
+    <div class="p-4 bg-yellow-200 text-yellow-800 rounded-full">
+      ⚠️
+    </div>
+    <div>
+      <h3 class="text-lg font-semibold text-yellow-700">ใกล้หมดสต็อก</h3>
+      <p class="text-2xl font-bold text-yellow-900">1 รายการ</p>
+    </div>
+  </div>
+</div>
+
+
+    <!-- รายการสินค้า -->
+    <section>
+      <h2 class="text-xl font-semibold text-indigo-700 mb-4">📦 รายการสินค้าทั้งหมด</h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full border border-indigo-200 rounded-lg">
+          <thead class="bg-purple-100 text-indigo-700 font-semibold">
+            <tr>
+              <th class="px-4 py-3 border-b">ชื่อสินค้า</th>
+              <th class="px-4 py-3 border-b">ประเภท</th>
+              <th class="px-4 py-3 border-b">รูปภาพ</th>
+              <th class="px-4 py-3 border-b">สี</th>
+              <th class="px-4 py-3 border-b">ขนาด</th>
+              <th class="px-4 py-3 border-b">ราคา</th>
+              <th class="px-4 py-3 border-b">จำนวน/ชิ้น</th>
+            </tr>
+          </thead>
+          <tbody id="productTableBody" class="text-indigo-900">
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ปุ่มนำทาง -->
+    <div class="flex gap-4">
+      <a href="admin-stock.html" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold shadow">
+        เพิ่มสินค้าใหม่
+      </a>
+      <a href="AdminDashboard.html" class="bg-purple-200 hover:bg-purple-300 text-gray-800 px-6 py-3 rounded-lg font-semibold shadow">
+        กลับแดชบอร์ด
+      </a>
+      <button onclick="clearStockData()" class="bg-red-100 hover:bg-red-200 text-red-700 px-6 py-3 rounded-lg font-semibold shadow">
+        ล้างข้อมูลทั้งหมด
+      </button>
+    </div>
+
+  </main>
+
+  <script>
+    const tbody = document.getElementById("productTableBody");
+    const itemCount = document.getElementById("itemCount");
+    const storedItems = JSON.parse(localStorage.getItem('stockItems') || '[]');
+
+    const colorMap = {
+      black: "ดำ",
+      blue: "น้ำเงิน",
+      white: "ขาว",
+      gray: "เทา",
+      red: "แดง",
+      brown: "น้ำตาล",
+      transparent: "ใส",
+      yellow: "เหลือง",
+      navy: "น้ำเงินเข้ม",
+      silver: "เงิน",
+      gold: "ทอง"
+    };
+
+    storedItems.forEach(item => {
+      const row = document.createElement("tr");
+      row.className = "hover:bg-purple-50 border-b";
+      const colorThai = colorMap[item.color] || item.color || "-";
+
+      row.innerHTML = `
+        <td class="px-4 py-3 text-center">${item.name}</td>
+        <td class="px-4 py-3 text-center">${item.type}</td>
+        <td class="px-4 py-3 text-center">
+          <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-md mx-auto" />
+        </td>
+        <td class="px-4 py-3 text-center">${colorThai}</td>
+        <td class="px-4 py-3 text-center">${item.size || '-'}</td>
+        <td class="px-4 py-3 text-center">${item.price}</td>
+        <td class="px-4 py-3 text-center">${item.stock}</td>
+      `;
+      tbody.appendChild(row);
+    });
+
+    itemCount.textContent = `${storedItems.length} รายการ`;
+
+    function clearStockData() {
+      if (confirm("คุณต้องการล้างข้อมูลสินค้าทั้งหมดใช่หรือไม่?")) {
+        localStorage.removeItem('stockItems');
+        location.reload();
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>ฟอร์มจองตั๋วกิจกรรม</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: 'Sarabun', sans-serif; }
+  </style>
+</head>
+<body class="bg-green-50 min-h-screen flex items-center justify-center p-4">
+
+  <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-md border border-green-300">
+    <h2 class="text-2xl font-extrabold text-center text-green-700 mb-6">🎫 ฟอร์มจองตั๋วกิจกรรม</h2>
+
+    <form id="bookingForm" class="space-y-5" novalidate>
+      <!-- ชื่อ-นามสกุล -->
+      <div>
+        <label for="fullname" class="block text-green-800 font-semibold mb-1">ชื่อ-นามสกุล</label>
+        <input type="text" id="fullname" class="w-full p-3 rounded border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-400" />
+        <p id="nameError" class="text-red-500 text-xs mt-1 hidden"></p>
+      </div>
+
+      <!-- เบอร์โทรศัพท์ -->
+      <div>
+        <label for="phone" class="block text-green-800 font-semibold mb-1">เบอร์โทรศัพท์</label>
+        <input type="tel" id="phone" class="w-full p-3 rounded border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-400" />
+        <p id="phoneError" class="text-red-500 text-xs mt-1 hidden"></p>
+      </div>
+
+      <!-- ประเภทตั๋ว -->
+      <div>
+        <label for="ticketType" class="block text-green-800 font-semibold mb-1">ประเภทตั๋ว</label>
+        <select id="ticketType" class="w-full p-3 rounded border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-400">
+          <option value="ปกติ">ปกติ</option>
+          <option value="VIP">VIP</option>
+          <option value="Premium">Premium</option>
+        </select>
+      </div>
+
+      <!-- จำนวนตั๋ว -->
+      <div>
+        <label for="quantity" class="block text-green-800 font-semibold mb-1">จำนวนตั๋ว</label>
+        <input type="number" id="quantity" min="1" class="w-full p-3 rounded border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-400" />
+        <p id="quantityError" class="text-red-500 text-xs mt-1 hidden"></p>
+      </div>
+
+      <button type="submit" class="w-full bg-gradient-to-r from-green-400 to-green-600 text-white py-3 rounded font-bold hover:brightness-110 transition duration-200">
+        ✅ จองตั๋วเลย
+      </button>
+    </form>
+  </div>
+
+  <!-- Modal success -->
+  <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white p-6 rounded-lg shadow-lg text-center max-w-sm mx-4">
+      <h3 class="text-lg font-bold text-green-700 mb-3">จองตั๋วสำเร็จ 🎉</h3>
+      <p id="successMessage" class="mb-5"></p>
+      <button onclick="closeModal()" class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 transition">ตกลง</button>
+    </div>
+  </div>
+
+<script>
+  const form = document.getElementById('bookingForm');
+  const fullname = document.getElementById('fullname');
+  const phone = document.getElementById('phone');
+  const ticketType = document.getElementById('ticketType');
+  const quantity = document.getElementById('quantity');
+
+  const nameError = document.getElementById('nameError');
+  const phoneError = document.getElementById('phoneError');
+  const quantityError = document.getElementById('quantityError');
+
+  const modal = document.getElementById('successModal');
+  const successMessage = document.getElementById('successMessage');
+
+  fullname.addEventListener('input', () => {
+  if (fullname.value.trim() !== '') nameError.classList.add('hidden');
+});
+phone.addEventListener('input', () => {
+  if (phone.value.trim() !== '') phoneError.classList.add('hidden');
+});
+quantity.addEventListener('input', () => {
+  if (quantity.value.trim() !== '') quantityError.classList.add('hidden');
+});
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    let isValid = true;
+
+    // ซ่อน error ทุกตัวก่อนตรวจ
+    nameError.classList.add('hidden');
+    phoneError.classList.add('hidden');
+    quantityError.classList.add('hidden');
+
+    // ตรวจชื่อ-นามสกุล
+    const nameValue = fullname.value.trim();
+    const nameWords = nameValue.split(/\s+/);
+
+    if (nameValue === '') {
+      nameError.textContent = 'กรุณากรอกชื่อ-นามสกุล';
+      nameError.classList.remove('hidden');
+      isValid = false;
+    } else if (nameWords.length < 2) {
+      nameError.textContent = 'กรุณากรอกชื่อ-นามสกุล อย่างน้อย 2 คำ';
+      nameError.classList.remove('hidden');
+      isValid = false;
+    }
+
+    // ตรวจเบอร์โทรศัพท์
+    const phoneValue = phone.value.trim();
+    const phonePattern = /^0\d{9}$/;
+
+    if (phoneValue === '') {
+      phoneError.textContent = 'กรุณากรอกเบอร์โทรศัพท์';
+      phoneError.classList.remove('hidden');
+      isValid = false;
+    } else if (!phonePattern.test(phoneValue)) {
+      phoneError.textContent = 'เบอร์โทรต้องเป็นตัวเลข 10 หลัก และขึ้นต้นด้วย 0';
+      phoneError.classList.remove('hidden');
+      isValid = false;
+    }
+
+    // ตรวจจำนวนตั๋ว
+    const qty = parseInt(quantity.value);
+    const type = ticketType.value;
+
+    if (isNaN(qty) || qty < 1) {
+      quantityError.textContent = 'จำนวนตั๋วต้องไม่น้อยกว่า 1';
+      quantityError.classList.remove('hidden');
+      isValid = false;
+    } else if ((type === 'VIP' || type === 'Premium') && qty > 2) {
+      quantityError.textContent = 'VIP และ Premium จำกัดสูงสุด 2 ใบ';
+      quantityError.classList.remove('hidden');
+      isValid = false;
+    } else if (type === 'ปกติ' && qty > 5) {
+      quantityError.textContent = 'ประเภทปกติ จำกัดสูงสุด 5 ใบ';
+      quantityError.classList.remove('hidden');
+      isValid = false;
+    }
+
+    if (isValid) {
+      successMessage.textContent = `จำนวน: ${qty} ประเภท: ${type}`;
+      modal.classList.remove('hidden');
+      form.reset();
+    }
+  });
+
+  function closeModal() {
+    modal.classList.add('hidden');
+  }
+</script>
+
+</body>
+</html>

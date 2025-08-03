@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard | CS 30 ปี</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Sarabun', sans-serif;
+    }
+    /* Fade-in animation */
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    .fade-in {
+      animation: fadeIn 0.7s ease forwards;
+    }
+    /* Tooltip */
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      cursor: default;
+    }
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 180px;
+      background-color: #5b21b6;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 6px;
+      position: absolute;
+      z-index: 10;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -90px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 0.875rem;
+      box-shadow: 0 0 8px rgba(91,33,182,0.7);
+      pointer-events: none;
+      user-select: none;
+    }
+    .tooltip:hover .tooltiptext,
+    .tooltip:focus .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 min-h-screen p-8">
+
+  <header class="mb-10 max-w-7xl mx-auto fade-in flex justify-between items-center px-4 sm:px-6 pt-6">
+  <h1 class="text-4xl font-extrabold text-indigo-700 mb-2 flex items-center gap-3">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-purple-600 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h4l3-6 4 12h4" />
+    </svg>
+    แดชบอร์ดหลัก
+  </h1>
+  <div class="flex gap-3">
+    <a href="admin-stock.html" class="inline-block bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition transform hover:scale-105">
+      เตรียมสต็อกเพื่อขาย
+    </a>
+    <button id="logoutAdmin" class="bg-gradient-to-r from-purple-500 to-pink-400 hover:from-red-600 hover:to-yellow-500 text-white font-semibold px-6 py-2 rounded-lg shadow transition duration-300">
+      Logout
+    </button>
+  </div>
+</header>
+
+
+
+  <main class="max-w-7xl mx-auto space-y-10">
+
+    <!-- Summary Cards -->
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-8 fade-in">
+      <div tabindex="0" class="tooltip bg-white rounded-2xl p-8 shadow-lg border border-indigo-200 hover:shadow-xl transition transform hover:scale-105 duration-300 cursor-pointer focus:outline-none focus:ring-4 focus:ring-purple-300">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-indigo-500 font-semibold text-lg">จำนวนสินค้า</h2>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20 13V6a2 2 0 00-2-2h-6m6 9l-2-2m-8-2l2 2m-2 0v6a2 2 0 002 2h6" />
+          </svg>
+        </div>
+        <p class="text-5xl font-extrabold text-indigo-700 mb-4">120</p>
+        <div class="w-full bg-indigo-100 rounded-full h-3">
+          <div class="bg-purple-600 h-3 rounded-full transition-all duration-500" style="width: 75%"></div>
+        </div>
+        <span class="text-indigo-600 text-sm mt-2 block">75% ของเป้าหมายสินค้าปีนี้</span>
+        <span class="tooltiptext">เป้าหมายปีนี้คือ 160 ชิ้น</span>
+      </div>
+
+      <div tabindex="0" class="tooltip bg-white rounded-2xl p-8 shadow-lg border border-indigo-200 hover:shadow-xl transition transform hover:scale-105 duration-300 cursor-pointer focus:outline-none focus:ring-4 focus:ring-purple-300">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-indigo-500 font-semibold text-lg">ยอดขายวันนี้</h2>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11 17h2m-1-1v-6m2 6a9 9 0 11-6 0" />
+          </svg>
+        </div>
+        <p class="text-5xl font-extrabold text-indigo-700 mb-4">฿15,600</p>
+        <div class="w-full bg-indigo-100 rounded-full h-3">
+          <div class="bg-purple-600 h-3 rounded-full transition-all duration-500" style="width: 62%"></div>
+        </div>
+        <span class="text-indigo-600 text-sm mt-2 block">62% ของเป้ายอดขายวันนี้</span>
+        <span class="tooltiptext">เป้ายอดขายวันนี้คือ ฿25,000</span>
+      </div>
+
+      <div tabindex="0" class="tooltip bg-white rounded-2xl p-8 shadow-lg border border-indigo-200 hover:shadow-xl transition transform hover:scale-105 duration-300 cursor-pointer focus:outline-none focus:ring-4 focus:ring-purple-300">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-indigo-500 font-semibold text-lg">ยอดออร์เดอร์ล่าสุด</h2>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-6a2 2 0 012-2h6" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 21v-4a2 2 0 012-2h1" />
+          </svg>
+        </div>
+        <p class="text-5xl font-extrabold text-indigo-700 mb-4">35 รายการ</p>
+        <div class="w-full bg-indigo-100 rounded-full h-3">
+          <div class="bg-purple-600 h-3 rounded-full transition-all duration-500" style="width: 88%"></div>
+        </div>
+        <span class="text-indigo-600 text-sm mt-2 block">88% ของยอดออร์เดอร์เป้าหมาย</span>
+        <span class="tooltiptext">เป้าหมายออร์เดอร์รายวันคือ 40 รายการ</span>
+      </div>
+    </section>
+
+    <!-- Clean SVG Bar Chart -->
+    <section class="bg-white rounded-2xl p-8 shadow-lg border border-indigo-200 max-w-5xl mx-auto cursor-default fade-in">
+      <h2 class="text-2xl font-bold text-indigo-700 mb-6 flex items-center gap-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-600 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M11 17h2m-1-1v-6m2 6a9 9 0 11-6 0" />
+        </svg>
+        ยอดขายสัปดาห์นี้ (บาท)
+      </h2>
+      <svg width="100%" height="260" viewBox="0 0 520 260" role="img" aria-label="กราฟยอดขายรายวัน">
+        <style>
+          .bar { fill: #7c3aed; transition: fill 0.3s; }
+          .bar:hover { fill: #5b21b6; }
+          .label { font-family: 'Sarabun', sans-serif; font-weight: 600; fill: #4c1d95; font-size: 14px; }
+          .value { font-family: 'Sarabun', sans-serif; font-weight: 700; fill: #7c3aed; font-size: 16px; }
+          .grid-line { stroke: #ede9fe; stroke-width: 1; }
+          .axis { stroke: #c7d2fe; stroke-width: 2; }
+        </style>
+
+        <!-- Y axis -->
+        <line class="axis" x1="40" y1="10" x2="40" y2="240" />
+        <!-- Grid lines -->
+        <line class="grid-line" x1="40" y1="50" x2="500" y2="50" />
+        <line class="grid-line" x1="40" y1="100" x2="500" y2="100" />
+        <line class="grid-line" x1="40" y1="150" x2="500" y2="150" />
+        <line class="grid-line" x1="40" y1="200" x2="500" y2="200" />
+
+        <!-- X axis -->
+        <line class="axis" x1="40" y1="240" x2="500" y2="240" />
+
+        <!-- Bars -->
+        <rect class="bar" x="60" y="140" width="40" height="100" rx="8" ry="8" />
+        <rect class="bar" x="120" y="100" width="40" height="140" rx="8" ry="8" />
+        <rect class="bar" x="180" y="160" width="40" height="80"  rx="8" ry="8" />
+        <rect class="bar" x="240" y="60"  width="40" height="180" rx="8" ry="8" />
+        <rect class="bar" x="300" y="110" width="40" height="130" rx="8" ry="8" />
+        <rect class="bar" x="360" y="130" width="40" height="110" rx="8" ry="8" />
+        <rect class="bar" x="420" y="90"  width="40" height="150" rx="8" ry="8" />
+
+        <!-- Values on top -->
+        <text class="value" x="80"  y="130" text-anchor="middle">10K</text>
+        <text class="value" x="140" y="90"  text-anchor="middle">14K</text>
+        <text class="value" x="200" y="150" text-anchor="middle">9K</text>
+        <text class="value" x="260" y="50"  text-anchor="middle">18K</text>
+        <text class="value" x="320" y="100" text-anchor="middle">13K</text>
+        <text class="value" x="380" y="120" text-anchor="middle">11K</text>
+        <text class="value" x="440" y="80"  text-anchor="middle">15K</text>
+
+        <!-- X labels -->
+        <text class="label" x="80"  y="260" text-anchor="middle">จ</text>
+        <text class="label" x="140" y="260" text-anchor="middle">อ</text>
+        <text class="label" x="200" y="260" text-anchor="middle">พ</text>
+        <text class="label" x="260" y="260" text-anchor="middle">พฤ</text>
+        <text class="label" x="320" y="260" text-anchor="middle">ศ</text>
+        <text class="label" x="380" y="260" text-anchor="middle">ส</text>
+        <text class="label" x="440" y="260" text-anchor="middle">อา</text>
+
+        <!-- Y labels -->
+        <text class="label" x="10" y="55"  text-anchor="start">20K</text>
+        <text class="label" x="10" y="105" text-anchor="start">15K</text>
+        <text class="label" x="10" y="155" text-anchor="start">10K</text>
+        <text class="label" x="10" y="205" text-anchor="start">5K</text>
+        <text class="label" x="10" y="240" text-anchor="start">0</text>
+      </svg>
+    </section>
+
+    <!-- News & Alerts -->
+    <section class="bg-white rounded-2xl p-8 shadow-lg border border-indigo-200 hover:shadow-xl transition max-w-3xl mx-auto fade-in cursor-default">
+      <h2 class="text-2xl font-bold text-indigo-700 mb-5 flex items-center gap-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-600 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 20h.01" />
+        </svg>
+        ข่าวสาร & แจ้งเตือน
+      </h2>
+      <ul class="list-disc list-inside space-y-3 text-indigo-800 text-lg">
+        <li class="flex items-center gap-3">
+          <span class="w-2 h-2 rounded-full bg-pink-500 inline-block"></span>
+          ระบบจะปิดปรับปรุงในวันที่ 15 สิงหาคม 2568 เวลา 22:00 น.
+        </li>
+        <li class="flex items-center gap-3">
+          <span class="w-2 h-2 rounded-full bg-purple-600 inline-block"></span>
+          เพิ่มสินค้าใหม่ “เสื้อรุ่น 30 ปี” แล้ววันนี้!
+        </li>
+        <li class="flex items-center gap-3">
+          <span class="w-2 h-2 rounded-full bg-indigo-500 inline-block"></span>
+          แจ้งเตือนสต็อกเหลือน้อย: หมวก จำนวน 5 ชิ้น
+        </li>
+      </ul>
+    </section>
+
+  </main>
+
+<script>
+  document.getElementById('logoutAdmin').addEventListener('click', () => {
+    window.location.href = 'loginadmin.html';
+  });
+</script>
+</body>
+</html>

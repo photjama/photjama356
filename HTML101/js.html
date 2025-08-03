@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+     <form id="form1">
+ <label for="username">Username:</label>
+ <input type="text" id="username" required />
+ <span id="usernameError" class="error"></span>
+ <button type="submit">Submit</button>
+ </form>
+
+ <script>
+ // The script listens for the form's submit event
+ document.getElementById('form1').addEventListener('submit', function (e) {
+ // get the username input and error message elements
+ const username = document.getElementById('username');
+ const error = document.getElementById('usernameError');
+ 
+ // Clear any previous error message
+ error.textContent = '';
+ 
+ // Check if the username is less than 3 characters
+ // If it is, prevent form submission and show an error message
+ if (username.value.trim().length < 3) {
+ e.preventDefault();
+ error.textContent = 'Username must be at least 3 characters.';
+ }
+ });
+ </script>
+</body>
+</html>

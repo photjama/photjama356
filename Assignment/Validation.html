@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>ฟอร์มคำร้อง มจ.16 (ออนไลน์)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    function handleSubmit(event) {
+      event.preventDefault();
+      alert("ส่งคำร้องเรียบร้อยแล้ว ✅");
+    }
+  </script>
+</head>
+<body class="bg-green-50 min-h-screen py-8 px-4 text-gray-900 font-sans">
+
+  <div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow">
+    <div class="text-center mb-6">
+      <img src="https://upload.wikimedia.org/wikipedia/th/thumb/2/2b/Emblem_of_Maejo_University.svg/1200px-Emblem_of_Maejo_University.svg.png" class="w-16 mx-auto mb-2">
+      <h1 class="text-2xl font-bold text-green-700">คำร้องขอโอนย้ายสาขาวิชาต่างคณะ</h1>
+      <p class="text-sm text-gray-700">สำหรับนักศึกษาหลักสูตร 4 ปี และ 4 ปีแบบเทียบเข้าเรียน (2 ปี)</p>
+    </div>
+
+    <form onsubmit="handleSubmit(event)" class="space-y-6">
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="font-medium">ชื่อ - นามสกุล</label>
+          <input type="text" name="fullName" required class="w-full border p-2 rounded mt-1">
+        </div>
+        <div>
+          <label class="font-medium">รหัสนักศึกษา</label>
+          <input type="text" name="studentId" required pattern="\\d{9}" class="w-full border p-2 rounded mt-1">
+        </div>
+        <div>
+          <label class="font-medium">เบอร์โทรศัพท์</label>
+          <input type="tel" name="phone" required class="w-full border p-2 rounded mt-1">
+        </div>
+        <div>
+          <label class="font-medium">ระบบ</label>
+          <select name="system" class="w-full border p-2 rounded mt-1">
+            <option>ภาคปกติ</option>
+            <option>ภาคสมทบ</option>
+          </select>
+        </div>
+        <div>
+          <label class="font-medium">หลักสูตร</label>
+          <select name="program" class="w-full border p-2 rounded mt-1">
+            <option>4 ปี</option>
+            <option>4 ปีเทียบเข้าเรียน (2 ปี)</option>
+          </select>
+        </div>
+      </div>
+
+      <hr class="my-4">
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="font-medium">คณะเดิม</label>
+          <input type="text" name="oldFaculty" required class="w-full border p-2 rounded mt-1">
+        </div>
+        <div>
+          <label class="font-medium">สาขาเดิม</label>
+          <input type="text" name="oldMajor" required class="w-full border p-2 rounded mt-1">
+        </div>
+        <div>
+          <label class="font-medium">คณะที่ต้องการย้ายไป</label>
+          <input type="text" name="newFaculty" required class="w-full border p-2 rounded mt-1">
+        </div>
+        <div>
+          <label class="font-medium">สาขาที่ต้องการย้ายไป</label>
+          <input type="text" name="newMajor" required class="w-full border p-2 rounded mt-1">
+        </div>
+      </div>
+
+      <div>
+        <label class="font-medium">เหตุผลในการขอโอนย้าย</label>
+        <textarea name="reason" required rows="4" class="w-full border p-2 rounded mt-1" placeholder="อธิบายเหตุผลอย่างชัดเจน..."></textarea>
+      </div>
+
+      <div>
+        <label class="font-medium">แนบใบรายงานผลการศึกษา</label>
+        <input type="file" name="transcript" class="mt-2">
+      </div>
+
+      <div class="text-center mt-6">
+        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded">
+          ส่งคำร้อง
+        </button>
+      </div>
+    </form>
+  </div>
+
+</body>
+</html>

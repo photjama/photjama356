@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin | เพิ่มสินค้า - CS 30 ปี</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-gray-900 font-sans">
+
+  <div class="max-w-lg mx-auto p-8 mt-16 rounded-lg shadow-lg
+              bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
+
+    <h1 class="text-3xl font-semibold text-center mb-8 text-indigo-700 tracking-wide">
+      Admin Panel | เพิ่มสินค้าใหม่
+    </h1>
+
+    <form class="space-y-6" enctype="multipart/form-data">
+
+      <!-- ประเภทสินค้า -->
+      <div>
+        <label for="productType" class="block text-sm font-medium mb-1 text-indigo-800">ประเภทสินค้า</label>
+        <select id="productType" name="productType" required
+          class="w-full rounded-md border-2 border-indigo-300
+                 focus:border-purple-500 focus:ring-2 focus:ring-purple-300
+                 px-4 py-2 transition"
+          onchange="toggleProductOptions()">
+          <option value="">-- เลือกประเภทสินค้า --</option>
+          <option value="shirt">เสื้อ</option>
+          <option value="bag">กระเป๋า</option>
+          <option value="cup">แก้ว</option>
+          <option value="hat">หมวก</option>
+          <option value="umbrella">ร่ม</option>
+          <option value="pin">เข็มกลัด</option>
+          <option value="notebook">สมุด</option>
+          <option value="pen">ปากกา</option>
+        </select>
+      </div>
+
+      <!-- เฉพาะเสื้อ: สี + ไซต์ -->
+      <div id="shirtOptions" class="hidden space-y-4">
+        <div>
+          <label for="shirtColor" class="block text-sm font-medium mb-1 text-indigo-800">สีของเสื้อ</label>
+          <select id="shirtColor" name="shirtColor"
+            class="w-full rounded-md border-2 border-indigo-300
+                 focus:border-purple-500 focus:ring-2 focus:ring-purple-300
+                 px-4 py-2 transition">
+            <option value="">-- เลือกสี --</option>
+            <option value="black">ดำ</option>
+            <option value="blue">น้ำเงิน</option>
+            <option value="gray">เทา</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="shirtSize" class="block text-sm font-medium mb-1 text-indigo-800">ไซต์เสื้อ</label>
+          <select id="shirtSize" name="shirtSize"
+            class="w-full rounded-md border-2 border-indigo-300
+                 focus:border-purple-500 focus:ring-2 focus:ring-purple-300
+                 px-4 py-2 transition">
+            <option value="">-- เลือกไซต์ --</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+            <option value="XXL">XXL</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- สำหรับหมวก กระเป๋า ปากกา แก้ว ร่ม: สี -->
+      <div id="colorOptions" class="hidden">
+        <label for="productColor" class="block text-sm font-medium mb-1 text-indigo-800">สีของสินค้า</label>
+        <select id="productColor" name="productColor"
+          class="w-full rounded-md border-2 border-indigo-300
+                 focus:border-purple-500 focus:ring-2 focus:ring-purple-300
+                 px-4 py-2 transition">
+          <option value="">-- เลือกสี --</option>
+          <option value="black">ดำ</option>
+          <option value="white">ขาว</option>
+          <option value="blue">น้ำเงิน</option>
+          <option value="red">แดง</option>
+          <option value="green">เขียว</option>
+        </select>
+      </div>
+
+      <!-- รายละเอียดเพิ่มเติม -->
+      <div>
+        <label for="colorSize" class="block text-sm font-medium mb-1 text-indigo-800">รายละเอียดเพิ่มเติม</label>
+        <input id="colorSize" name="colorSize" type="text" 
+          class="w-full rounded-md border-2 border-indigo-300
+                 focus:border-purple-500 focus:ring-2 focus:ring-purple-300
+                 px-4 py-2 transition" />
+      </div>
+
+      <!-- ราคา -->
+      <div>
+        <label for="price" class="block text-sm font-medium mb-1 text-indigo-800">ราคา (บาท)</label>
+        <input id="price" name="price" type="number" min="0" step="0.01" required
+          class="w-full rounded-md border-2 border-indigo-300
+                 focus:border-purple-500 focus:ring-2 focus:ring-purple-300
+                 px-4 py-2 transition" />
+      </div>
+
+      <!-- สต็อก -->
+      <div>
+        <label for="stock" class="block text-sm font-medium mb-1 text-indigo-800">จำนวนในสต็อก</label>
+        <input id="stock" name="stock" type="number" min="0" required
+          class="w-full rounded-md border-2 border-indigo-300
+                 focus:border-purple-500 focus:ring-2 focus:ring-purple-300
+                 px-4 py-2 transition" />
+      </div>
+
+      <!-- อัปโหลดรูปภาพ -->
+      <div>
+        <label for="productImage" class="block text-sm font-medium mb-1 text-indigo-800">อัปโหลดรูปภาพสินค้า</label>
+        <input id="productImage" name="productImage" type="file" accept="image/*" required
+          class="w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4
+                 file:border-0 file:rounded-md file:bg-purple-400 file:text-white
+                 hover:file:bg-purple-500 transition cursor-pointer" />
+      </div>
+
+      <!-- ปุ่มบันทึก -->
+      <div class="pt-6">
+        <button type="submit"
+          class="w-full py-3 rounded-lg bg-gradient-to-r from-purple-600 to-pink-500
+                 text-white font-semibold shadow-lg hover:brightness-110 transition">
+          บันทึกสินค้า
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+
+  <script>
+  function toggleProductOptions() {
+    const type = document.getElementById("productType").value;
+    const shirtOptions = document.getElementById("shirtOptions");
+    const colorOptions = document.getElementById("colorOptions");
+    const productColor = document.getElementById("productColor");
+
+    // ล้างตัวเลือกเก่า
+    productColor.innerHTML = "";
+
+    // ตัวเลือกเริ่มต้น
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.textContent = "-- เลือกสี --";
+    productColor.appendChild(defaultOption);
+
+    // ชุดสีของแต่ละประเภทสินค้า
+    const colorSets = {
+      hat: [
+        { value: "black", label: "ดำ" },
+        { value: "white", label: "ขาว" },
+        { value: "blue", label: "น้ำเงิน" },
+        { value: "red", label: "แดง" }
+      ],
+      bag: [
+        { value: "brown", label: "น้ำตาล" },
+        { value: "gray", label: "เทา" },
+        { value: "black", label: "ดำ" },
+        { value: "blue", label: "น้ำเงิน" }
+      ],
+      cup: [
+        { value: "white", label: "ขาว" },
+        { value: "blue", label: "ฟ้า" },
+        { value: "transparent", label: "ใส" }
+      ],
+      umbrella: [
+        { value: "red", label: "ดำ" },
+        { value: "blue", label: "ฟ้า" },
+        { value: "yellow", label: "เหลือง" }
+      ],
+      pen: [
+        { value: "red", label: "น้ำเงิน" },
+        { value: "blue", label: "แดง" }
+        
+      ]
+    };
+
+    if (type === "shirt") {
+      shirtOptions?.classList.remove("hidden");
+      colorOptions.classList.add("hidden");
+    } else if (Object.keys(colorSets).includes(type)) {
+      shirtOptions?.classList.add("hidden");
+      colorOptions.classList.remove("hidden");
+
+      const selectedColors = colorSets[type];
+      selectedColors.forEach(color => {
+        const option = document.createElement("option");
+        option.value = color.value;
+        option.textContent = color.label;
+        productColor.appendChild(option);
+      });
+    } else {
+      shirtOptions?.classList.add("hidden");
+      colorOptions.classList.add("hidden");
+    }
+  }
+</script>
+
+
+
+</body>
+</html>
